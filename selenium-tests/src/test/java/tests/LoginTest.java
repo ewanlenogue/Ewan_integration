@@ -18,8 +18,11 @@ public class LoginTest {
 
     @AfterEach
     void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
+
 
     @Test
     void login_failure() {
