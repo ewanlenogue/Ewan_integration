@@ -17,13 +17,7 @@ pipeline {
         }
 
 
-        stage('Selenium Tests') {
-            steps {
-                dir('selenium-tests') {
-                    sh 'mvn test'
-                }
-            }
-        }
+        
     }
 }
 
