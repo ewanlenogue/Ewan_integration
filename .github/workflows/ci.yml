@@ -20,7 +20,7 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-
+	# on lance les tests backend
       - name: Run backend tests
         working-directory: Backend/tp_automatisation_tests
         run: mvn clean test
@@ -29,6 +29,7 @@ jobs:
   selenium:
     name: Selenium - Tests E2E
     runs-on: ubuntu-latest
+    needs: backend   # on précise qu'on attend que le backend soit lancé
 
     steps:
       - uses: actions/checkout@v4
@@ -39,9 +40,58 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
 
+      # on lance le backend
+      - name: Start backend
+        working-directory: Backend/tp_automatisation_tests
+        run: |
+          mvn spring-boot:run &
+          echo "Backend starting..."
+
+      # On vérifie que le backend est lancé
+      - name: Wait for backend
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:8080/actuator/health | grep UP; then
+              echo "Backend is UP"
+              exit 0
+            fi
+            echo "Waiting for backend..."
+            sleep 2
+          done
+          echo "Backend failed to start"
+          exit 1
+
+      # on lance le frontend
+      - name: Start frontend
+        working-directory: Frontend/tp_automatisation_tests
+        run: |
+          npm ci
+          npm start &
+          echo "Frontend starting..."
+
+      # on vérifie que le front end est lancé
+      - name: Wait for frontend
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:4200 > /dev/null; then
+              echo "Frontend is UP"
+              exit 0
+            fi
+            echo "Waiting for frontend..."
+            sleep 2
+          done
+          echo "Frontend failed to start"
+          exit 1
+
+      # On exécute les tets Selenium
       - name: Run Selenium tests
         working-directory: selenium-tests
         run: mvn clean test
