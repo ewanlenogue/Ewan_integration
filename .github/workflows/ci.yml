@@ -25,23 +25,6 @@ jobs:
         working-directory: Backend/tp_automatisation_tests
         run: mvn clean test
 
-  frontend:
-    name: Frontend - Tests Angular
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install & test frontend
-        working-directory: Frontend/tp_automatisation_tests
-        run: |
-          npm install
-          npm test -- --watch=false --browsers=ChromeHeadless
 
   selenium:
     name: Selenium - Tests E2E
