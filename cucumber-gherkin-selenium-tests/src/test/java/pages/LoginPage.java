@@ -27,7 +27,6 @@ public class LoginPage {
         driver.findElement(By.id("password")).clear();
         driver.findElement(By.id("password")).sendKeys(password);
 
-        // ✅ ID CORRECT
         driver.findElement(By.id("login-btn")).click();
     }
 
