@@ -24,14 +24,17 @@ class BookServiceTest {
 
     @Test
     void should_create_book() {
+        // ARRANGE
         Book book = new Book(null, "1984", "Orwell", 1948);
 
+        // ACT
         when(repository.save(book)).thenReturn(
-                new Book(1L, "1984", "Orwell", 1948) // 1L => type Long
+                new Book(1L, "1984", "Orwell", 1948)
         );
 
         Book saved = service.create(book);
 
+        // ASSERT
         assertNotNull(saved.getId());
         assertEquals("1984", saved.getTitre());
         verify(repository).save(book);

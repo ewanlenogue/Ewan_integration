@@ -33,4 +33,9 @@ public class LoginPage {
                 )
         ).isDisplayed();
     }
+
+    public boolean isRedirectedToHome() {
+        return wait.until(ExpectedConditions.urlToBe(Config.BASE_URL+"/"));
+    }
+
 }

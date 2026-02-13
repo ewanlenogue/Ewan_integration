@@ -8,6 +8,4 @@ public class Config {
 
     public static final String BROWSER =
             System.getProperty("browser", "chrome");
-
-
 }

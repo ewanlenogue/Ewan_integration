@@ -33,4 +33,16 @@ public class LoginTest {
                 loginPage.isErrorDisplayed()
         );
     }
+
+    @Test
+    void login_success_redirects_to_home() {
+        loginPage.open();
+        loginPage.login("test", "password"); // identifiants valides
+
+        Assertions.assertTrue(
+                loginPage.isRedirectedToHome(),
+                "L'utilisateur devrait être redirigé vers la page d'accueil après une connexion réussie"
+        );
+    }
+
 }
