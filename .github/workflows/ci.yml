@@ -13,14 +13,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    	# clone le repo dans la VM
       - uses: actions/checkout@v4
-
+	# mise en place de Java à la bonne version
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
-
+	# exécute les tests
       - name: Run backend tests
         working-directory: Backend
         run: mvn clean test
@@ -32,19 +33,20 @@ jobs:
     needs: backend
 
     steps:
+	# clone le repo dans la VM
       - uses: actions/checkout@v4
-
+	# mise en place de Java à la bonne version
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
-
+	# mise en place de NodeJs à la bonne version
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+	# mise en place de Chrome pour les tests dans le navigateur
       - name: Setup Chrome
         uses: browser-actions/setup-chrome@v1
 
