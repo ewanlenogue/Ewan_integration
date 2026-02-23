@@ -10,7 +10,7 @@ pipeline {
 
         stage('Backend - Tests') {
             steps {
-                dir('Backend/tp_automatisation_tests') {
+                dir('Backend') {
                     sh 'mvn clean test'
                 }
             }
